@@ -11,7 +11,7 @@
 #
 
 DEFINES = 
-JFLAGS = -O3 -static
+JFLAGS = -O3 
 DEFS = system.h globals.h prototypes.h param.h
 BASELINE =  jpeg.o codec.o huffman.o io.o chendct.o leedct.o lexer.o marker.o stream.o transform.o
 
