@@ -14,7 +14,7 @@ cd jpegdir; make
 ```
 3. In your python code:
 ```
-import ljpeg.ljpeg
+from ljpeg import ljpeg
 
 x = ljpeg.imread(path)
 ```
