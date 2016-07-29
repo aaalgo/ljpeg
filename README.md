@@ -38,6 +38,30 @@ Usage:
 	
 	The LJPEG format sometimes has wrong values for width and height (transposed).
 	One has to read the correct values of width and height from the associating .ics file.
+	Below is a sample snippet for this purpose:
+		```
+		    W = None
+		    H = None
+		    # find the shape of image
+		    for l in open(ics, 'r'):
+			l = l.strip().split(' ')
+			if len(l) < 7:
+			    continue
+			if l[0] == name:
+			    W = int(l[4])
+			    H = int(l[2])
+			    bps = int(l[6])
+			    if bps != 12:
+				logging.warn('BPS != 12: %s' % path)
+			    break
+
+		    assert W != None
+		    assert H != None
+
+		    if W != image.shape[1]:
+			logging.warn('reshape: %s' % path)
+			image = image.reshape((H, W))
+		```
 
 4. Using ljpeg.py standalone:
 	- Convert to TIFF (requires the .ics file in the same directory as LJPEG)
@@ -50,6 +74,7 @@ Usage:
 	```
 	- Convert to jpeg for visualization with downsizing scale=0.3
 	./ljpeg.py cases/benigns/benign_01/case0029/C_0029_1.LEFT_CC.LJPEG output.jpg --visual --scale 0.3
+	```
 
 
 The Stanford ljpeg code is in public domain and is therefore OK to be
