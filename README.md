@@ -39,29 +39,29 @@ Usage:
 	The LJPEG format sometimes has wrong values for width and height (transposed).
 	One has to read the correct values of width and height from the associating .ics file.
 	Below is a sample snippet for this purpose:
-```
-    W = None
-    H = None
-    # find the shape of image
-    for l in open(ics, 'r'):
-	l = l.strip().split(' ')
-	if len(l) < 7:
-	    continue
-	if l[0] == name:
-	    W = int(l[4])
-	    H = int(l[2])
-	    bps = int(l[6])
-	    if bps != 12:
-		logging.warn('BPS != 12: %s' % path)
-	    break
+	```
+	    W = None
+	    H = None
+	    # find the shape of image
+	    for l in open(ics, 'r'):
+		l = l.strip().split(' ')
+		if len(l) < 7:
+		    continue
+		if l[0] == name:
+		    W = int(l[4])
+		    H = int(l[2])
+		    bps = int(l[6])
+		    if bps != 12:
+			logging.warn('BPS != 12: %s' % path)
+		    break
 
-    assert W != None
-    assert H != None
+	    assert W != None
+	    assert H != None
 
-    if W != image.shape[1]:
-	logging.warn('reshape: %s' % path)
-	image = image.reshape((H, W))
-```
+	    if W != image.shape[1]:
+		logging.warn('reshape: %s' % path)
+		image = image.reshape((H, W))
+	```
 
 4. Using ljpeg.py standalone:
 	- Convert to TIFF (requires the .ics file in the same directory as LJPEG)
