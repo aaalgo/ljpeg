@@ -72,7 +72,8 @@ Usage:
 	```
 	./ljpeg.py cases/benigns/benign_01/case0029/C_0029_1.LEFT_CC.LJPEG output.tiff --verify
 	```
-	- Convert to jpeg for visualization with downsizing scale=0.3
+	- Convert to jpeg for visualization with down-sizing scale=0.3 (16-bit TIFF is not good for direct visualization)
+	```
 	./ljpeg.py cases/benigns/benign_01/case0029/C_0029_1.LEFT_CC.LJPEG output.jpg --visual --scale 0.3
 	```
 
