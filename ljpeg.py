@@ -8,6 +8,10 @@ import logging
 
 BIN = os.path.join(os.path.dirname(__file__), "jpegdir", "jpeg")
 
+if not os.path.exists(BIN):
+    print "jpeg is not built yet; use 'cd jpegdir; make' first"
+    sys.exit(0)
+
 # sample output
 #> GW:1979  GH:4349  R:0
 #>> C:1  N:xx.ljpeg.1  W:1979  H:4349  hf:1  vf:1
