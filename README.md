@@ -35,6 +35,22 @@ Usage:
 	Precision lost only occurs when you save the image to a jpeg file, which typically
 	involving convert pixel values to 8-bit unsigned integers.  For lossless
 	file storage, use [numpy.savez](http://docs.scipy.org/doc/numpy-1.10.0/reference/generated/numpy.savez.html).
+	
+	The LJPEG format sometimes has wrong values for width and height (transposed).
+	One has to read the correct values of width and height from the associating .ics file.
+
+4. Using ljpeg.py standalone:
+	- Convert to TIFF (requires the .ics file in the same directory as LJPEG)
+	```
+	./ljpeg.py cases/benigns/benign_01/case0029/C_0029_1.LEFT_CC.LJPEG output.tiff
+	```
+	- Convert to TIFF and verify that no information has been lost
+	```
+	./ljpeg.py cases/benigns/benign_01/case0029/C_0029_1.LEFT_CC.LJPEG output.tiff --verify
+	```
+	- Convert to jpeg for visualization with downsizing scale=0.3
+	./ljpeg.py cases/benigns/benign_01/case0029/C_0029_1.LEFT_CC.LJPEG output.jpg --visual --scale 0.3
+
 
 The Stanford ljpeg code is in public domain and is therefore OK to be
 included here.  I did minor modification to make the code compile under

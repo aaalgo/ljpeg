@@ -4,6 +4,7 @@ import sys
 import re
 import subprocess
 import numpy
+import logging
 
 BIN = os.path.join(os.path.dirname(__file__), "jpegdir", "jpeg")
 
@@ -31,11 +32,76 @@ def read (path):
     return im
 
 if __name__ == '__main__':
-    x = read('xx.ljpeg').astype('float')
+    logging.basicConfig(level=logging.INFO)
+    import argparse
+    import glob
     import cv2
-    x = cv2.resize(x, None, None, 0.2, 0.2)
-    x = numpy.minimum(x / 256, 255)
-    cv2.imwrite("x.jpg", x)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("ljpeg", nargs=1)
+    parser.add_argument("output", nargs=1)
+    parser.add_argument("--verify", action="store_true")
+    parser.add_argument("--visual", action="store_true")
+    parser.add_argument("--scale", type=float)
 
+    args = parser.parse_args()
+    path = args.ljpeg[0]
+    tiff = args.output[0]
 
+    assert 'LJPEG' in path
+
+    root = os.path.dirname(path)
+    stem = os.path.splitext(path)[0]
+
+    # read ICS
+    ics = glob.glob(root + '/*.ics')[0]
+    name = path.split('.')[-2]
+
+    W = None
+    H = None
+    # find the shape of image
+    for l in open(ics, 'r'):
+        l = l.strip().split(' ')
+        if len(l) < 7:
+            continue
+        if l[0] == name:
+            W = int(l[4])
+            H = int(l[2])
+            bps = int(l[6])
+            if bps != 12:
+                logging.warn('BPS != 12: %s' % path)
+            break
+
+    assert W != None
+    assert H != None
+
+    image = read(path)
+
+    if W != image.shape[1]:
+        logging.warn('reshape: %s' % path)
+        image = image.reshape((H, W))
+
+    raw = image
+
+    if args.visual:
+        logging.warn("normalizing color, will lose information")
+        if args.verify:
+            logging.error("verification is going to fail")
+        if args.scale:
+            rows, cols = image.shape
+            image = cv2.resize(image, (int(cols * args.scale), int(rows * args.scale)))
+        image = cv2.normalize(image, None, 0, 255, cv2.NORM_MINMAX)
+        image = numpy.uint8(image)
+    elif args.scale:
+        logging.error("--scale must be used with --visual")
+        sys.exit(1)
+        #image = cv2.equalizeHist(image)
+    #tiff = stem + '.TIFF'
+    cv2.imwrite(tiff, image)
+
+    if args.verify:
+        verify = cv2.imread(tiff, -1)
+        if numpy.all(raw == verify):
+            logging.info('Verification successful, conversion is lossless')
+        else:
+            logging.error('Verification failed: %s' % path)
 
