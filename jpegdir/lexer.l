@@ -15,14 +15,13 @@ advertisement of this source code should refer to it as the Portable
 Video Research Group (PVRG) code, and not by any author(s) (or
 Stanford University) name.
 *************************************************************/
+%option noyywrap
 %{
 
 /*LABEL lexer.c */
 
 /* Redefine the yywrap so that we don't have
    to worry about lex library */
-
-# define yywrap() (1)
 
 static char *ReservedWords[] = {   /* Token names */
 "COMPONENT",
