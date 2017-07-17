@@ -1,5 +1,9 @@
 Usage:
 
+0. Install flex
+``` apt-get install flex```
+Building without flex will fail and pollute the codebase.
+
 1. In your python project
 	```
 	git clone https://github.com/aaalgo/ljpeg.git
