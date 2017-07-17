@@ -1,7 +1,7 @@
 Usage:
 
-0. Install flex
-``` apt-get install flex```
+0. Install flex with
+``` apt-get install flex```.
 Building without flex will fail and pollute the codebase.
 
 1. In your python project
