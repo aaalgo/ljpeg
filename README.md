@@ -19,6 +19,16 @@ Building without flex will fail and pollute the codebase.
 	cd jpegdir; make
 
 	```
+
+A precompiled binary of jpeg is included.  In case this step does not
+work do this:
+
+```
+cd jpegdir;
+cp jpeg_static jpeg
+```
+
+
 3. In your python code:
 	```
 	from ljpeg import ljpeg
