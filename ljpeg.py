@@ -6,7 +6,9 @@ import subprocess
 import numpy
 import logging
 
-BIN = os.path.join(os.path.dirname(__file__), "jpegdir", "jpeg")
+BIN = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "jpegdir", "jpeg")
+)
 
 if not os.path.exists(BIN):
     print "jpeg is not built yet; use 'cd jpegdir; make' first"

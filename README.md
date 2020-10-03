@@ -1,4 +1,7 @@
+
 Usage:
+
+> use with python2 
 
 0. Install flex with
 ``` apt-get install flex```.
