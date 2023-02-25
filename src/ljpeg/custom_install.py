@@ -6,5 +6,5 @@ class CustomInstallCommand(install):
     """Custom installation command."""
 
     def run(self):
-        install.run(self)
         subprocess.call(['mkdir xxx && mkdir ~/Workspace/playground/xxx1'])
+        install.run(self)
