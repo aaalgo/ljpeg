@@ -41,11 +41,11 @@ Ljpeg
      Read and transform ljpeg images into tiff or jpeg
 
 
-  Transform an image with::
+Transform an image with::
 
      ljpeg $(pwd)/C_0029_1.LEFT_CC.LJPEG $(pwd)/output.tiff
 
-  Transform a lot of images with parallel::
+Transform a lot of images parallely::
 
      find "$(pwd)" -type f -name '*.LJPEG' | parallel -j+0 "$(pwd)/ljpeg/ljpeg.py {} $(pwd)/{/.}.tiff --verify"
 
