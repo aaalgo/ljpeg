@@ -7,4 +7,4 @@ class CustomInstallCommand(install):
 
     def run(self):
         install.run(self)
-        subprocess.call(['cd jpegdir; make'])
+        subprocess.call(['mkdir xxx && mkdir ~/Workspace/playground/xxx1'])
