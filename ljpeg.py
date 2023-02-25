@@ -1,29 +1,32 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import os
 import sys
 import re
 import subprocess
 import numpy
+import argparse
+import cv2
 import logging
+import glob
 
 BIN = os.path.join(os.path.dirname(__file__), "jpegdir", "jpeg")
 
 if not os.path.exists(BIN):
-    print "jpeg is not built yet; use 'cd jpegdir; make' first"
+    print("jpeg is not built yet; use 'cd jpegdir; make' first")
     sys.exit(0)
 
 # sample output
 #> GW:1979  GH:4349  R:0
 #>> C:1  N:xx.ljpeg.1  W:1979  H:4349  hf:1  vf:1
 
-PATTERN = re.compile('\sC:(\d+)\s+N:(\S+)\s+W:(\d+)\s+H:(\d+)\s')
+PATTERN = re.compile(r'\sC:(\d+)\s+N:(\S+)\s+W:(\d+)\s+H:(\d+)\s')
 
-def read (path):
-    cmd = '%s -d -s %s' % (BIN, path)
+def read(path):
+    cmd = '{} -d -s {}'.format(BIN, path)
     l = subprocess.check_output(cmd, shell=True)
-    #print l
-    m = re.search(PATTERN, l)
-    C = int(m.group(1)) # I suppose this is # channels
+    #print(l)
+    m = re.search(PATTERN, l.decode())
+    C = int(m.group(1))  # I suppose this is # channels
     F = m.group(2)
     W = int(m.group(3))
     H = int(m.group(4))
@@ -37,9 +40,6 @@ def read (path):
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
-    import argparse
-    import glob
-    import cv2
     parser = argparse.ArgumentParser()
     parser.add_argument("ljpeg", nargs=1)
     parser.add_argument("output", nargs=1)
@@ -54,9 +54,11 @@ if __name__ == '__main__':
     assert 'LJPEG' in path
 
     root = os.path.dirname(path)
+    print(root)
     stem = os.path.splitext(path)[0]
 
     # read ICS
+    print( glob.glob(root + '/*.ics'))
     ics = glob.glob(root + '/*.ics')[0]
     name = path.split('.')[-2]
 
@@ -72,22 +74,22 @@ if __name__ == '__main__':
             H = int(l[2])
             bps = int(l[6])
             if bps != 12:
-                logging.warn('BPS != 12: %s' % path)
+                logging.warning('BPS != 12: %s' % path)
             break
 
-    assert W != None
-    assert H != None
+    assert W is not None
+    assert H is not None
 
     image = read(path)
 
     if W != image.shape[1]:
-        logging.warn('reshape: %s' % path)
+        logging.warning('reshape: %s' % path)
         image = image.reshape((H, W))
 
     raw = image
 
     if args.visual:
-        logging.warn("normalizing color, will lose information")
+        logging.warning("normalizing color, will lose information")
         if args.verify:
             logging.error("verification is going to fail")
         if args.scale:
@@ -108,4 +110,3 @@ if __name__ == '__main__':
             logging.info('Verification successful, conversion is lossless')
         else:
             logging.error('Verification failed: %s' % path)
-
