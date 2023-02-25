@@ -29,7 +29,7 @@ source env/bin/activate
 ```
 
 ```bash
-python3 -m pip install -r requirements.txt
+python3 -m pip install -r $(pwd)/ljpeg/requirements.txt
 ```
 
 3. Produce the jpeg binary.
