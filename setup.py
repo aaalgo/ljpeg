@@ -16,7 +16,7 @@ class CustomInstallCommand(install):
 
     def run(self):
         install.run(self)
-        subprocess.call(['mkdir', "xxx"])
+        subprocess.call(['echo', "abc"])
 
 
 if __name__ == "__main__":
