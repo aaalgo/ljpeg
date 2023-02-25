@@ -86,18 +86,18 @@ cp jpeg_static jpeg
 		image = image.reshape((H, W))
 	```
 
-5. Using ljpeg.py standalone with absolute paths over relative in order to keep away silly errors:
+5. Using ljpeg.py standalone with absolute paths preference over relative in order to keep away silly errors:
 	- Convert to TIFF (requires the .ics file in the same directory as LJPEG)
 	```
 	$(pwd)/ljpeg/ljpeg.py $(pwd)/cases/benigns/benign_01/case0029/C_0029_1.LEFT_CC.LJPEG $(pwd)/output.tiff
 	```
 	- Convert to TIFF and verify that no information has been lost
 	```
-	$(pwd)/ljepg/ljpeg.py cases/benigns/benign_01/case0029/C_0029_1.LEFT_CC.LJPEG $(pwd)/output.tiff --verify
+	$(pwd)/ljepg/ljpeg.py $(pwd)/cases/benigns/benign_01/case0029/C_0029_1.LEFT_CC.LJPEG $(pwd)/output.tiff --verify
 	```
 	- Convert to jpeg for visualization with down-sizing scale=0.3 (16-bit TIFF is not good for direct visualization)
 	```
-	$(pwd)/ljepg/ljpeg.py cases/benigns/benign_01/case0029/C_0029_1.LEFT_CC.LJPEG $(pwd)/output.jpg --visual --scale 0.3
+	$(pwd)/ljepg/ljpeg.py $(pwd)/cases/benigns/benign_01/case0029/C_0029_1.LEFT_CC.LJPEG $(pwd)/output.jpg --visual --scale 0.3
 	```
 	Note that output file can be any format that's supported by OpenCV (which includes all common types).  Most file formats only support 8-bit images, so directly saving into such file formats will cause problems.  Add "--visual" to normalize color into 8-bit before saving to such file formats.
 
