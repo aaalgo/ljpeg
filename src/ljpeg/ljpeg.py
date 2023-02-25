@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 import argparse
 import glob
 import logging
@@ -10,10 +9,18 @@ import sys
 import cv2
 import numpy
 
+from ljpeg import __version__
+
+__author__ = "sanchezcarlosjr"
+__copyright__ = "sanchezcarlosjr"
+__license__ = "MIT"
+
+_logger = logging.getLogger(__name__)
+
 BIN = os.path.join(os.path.dirname(__file__), "jpegdir", "jpeg")
 
 if not os.path.exists(BIN):
-    print("jpeg is not built yet; use 'cd jpegdir; make' first")
+    _logger.error("jpeg is not built yet; use 'cd jpegdir; make' first")
     sys.exit(0)
 
 # sample output
@@ -26,7 +33,7 @@ PATTERN = re.compile(r"\sC:(\d+)\s+N:(\S+)\s+W:(\d+)\s+H:(\d+)\s")
 def read(path):
     cmd = "{} -d -s {}".format(BIN, path)
     output = subprocess.check_output(cmd, shell=True)
-    # print(output)
+    _logger.debug(output)
     m = re.search(PATTERN, output.decode())
     C = int(m.group(1))  # I suppose this is # channels
     F = m.group(2)
@@ -41,9 +48,29 @@ def read(path):
     return im
 
 
-if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
-    parser = argparse.ArgumentParser()
+def run():
+    parser = argparse.ArgumentParser(description="Read and transform LJPEG images")
+    parser.add_argument(
+        "--version",
+        action="version",
+        version=f"ljpeg {__version__}",
+    )
+    parser.add_argument(
+        "-v",
+        "--verbose",
+        dest="loglevel",
+        help="set loglevel to INFO",
+        action="store_const",
+        const=logging.INFO,
+        )
+    parser.add_argument(
+        "-vv",
+        "--very-verbose",
+        dest="loglevel",
+        help="set loglevel to DEBUG",
+        action="store_const",
+        const=logging.DEBUG,
+    )
     parser.add_argument("ljpeg", nargs=1)
     parser.add_argument("output", nargs=1)
     parser.add_argument("--verify", action="store_true")
@@ -57,11 +84,12 @@ if __name__ == "__main__":
     assert "LJPEG" in path
 
     root = os.path.dirname(path)
-    print(root)
+    _logger.debug(root)
     stem = os.path.splitext(path)[0]
+    _logger.debug(stem)
 
     # read ICS
-    print(glob.glob(root + "/*.ics"))
+    _logger.info(glob.glob(root + "/*.ics"))
     ics = glob.glob(root + "/*.ics")[0]
     name = path.split(".")[-2]
 
@@ -77,7 +105,7 @@ if __name__ == "__main__":
             H = int(line[2])
             bps = int(line[6])
             if bps != 12:
-                logging.warning("BPS != 12: %s" % path)
+                _logger.warning("BPS != 12: %s" % path)
             break
 
     assert W is not None
@@ -86,22 +114,22 @@ if __name__ == "__main__":
     image = read(path)
 
     if W != image.shape[1]:
-        logging.warning("reshape: %s" % path)
+        _logger.warning("reshape: %s" % path)
         image = image.reshape((H, W))
 
     raw = image
 
     if args.visual:
-        logging.warning("normalizing color, will lose information")
+        _logger.warning("normalizing color, will lose information")
         if args.verify:
-            logging.error("verification is going to fail")
+            _logger.error("verification is going to fail")
         if args.scale:
             rows, cols = image.shape
             image = cv2.resize(image, (int(cols * args.scale), int(rows * args.scale)))
         image = cv2.normalize(image, None, 0, 255, cv2.NORM_MINMAX)
         image = numpy.uint8(image)
     elif args.scale:
-        logging.error("--scale must be used with --visual")
+        _logger.error("--scale must be used with --visual")
         sys.exit(1)
         # image = cv2.equalizeHist(image)
     # tiff = stem + '.TIFF'
@@ -110,6 +138,10 @@ if __name__ == "__main__":
     if args.verify:
         verify = cv2.imread(tiff, -1)
         if numpy.all(raw == verify):
-            logging.info("Verification successful, conversion is lossless")
+            _logger.info("Verification successful, conversion is lossless")
         else:
-            logging.error("Verification failed: %s" % path)
+            _logger.error("Verification failed: %s" % path)
+
+
+if __name__ == "__main__":
+    run()

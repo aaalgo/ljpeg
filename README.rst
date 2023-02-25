@@ -34,11 +34,11 @@
 |
 
 ============
-Ljpeg
+ljpeg
 ============
 
 
-     Read and transform ljpeg images into tiff or jpeg
+     Read and transform LJPEG images into tiff or jpeg
 
 
 Transform an image with::
