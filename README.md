@@ -87,7 +87,6 @@ cp jpeg_static jpeg
 	```
 
 5. Using ljpeg.py standalone with absolute paths over relative in order to keep away silly errors:
-
 	- Convert to TIFF (requires the .ics file in the same directory as LJPEG)
 	```
 	$(pwd)/ljpeg/ljpeg.py $(pwd)/cases/benigns/benign_01/case0029/C_0029_1.LEFT_CC.LJPEG $(pwd)/output.tiff
