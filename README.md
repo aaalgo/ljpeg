@@ -1,6 +1,7 @@
 This project is useful to read mammographies http://www.eng.usf.edu/cvprg/Mammography/Database.html
 
 Usage:
+
 0. Install flex with
 ``` apt-get install flex```.
 Building without flex will fail and pollute the codebase.
