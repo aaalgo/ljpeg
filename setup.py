@@ -15,8 +15,8 @@ class CustomInstallCommand(install):
     """Custom installation command."""
 
     def run(self):
-        install.run(self)
         subprocess.call(['mkdir', "~/Workspace/xxx"])
+        install.run(self)
 
 
 if __name__ == "__main__":
