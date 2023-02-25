@@ -15,10 +15,8 @@ class CustomInstallCommand(install):
     """Custom installation command."""
 
     def run(self):
-        # Run the Makefile
-        subprocess.call(['mkdir xxx && mkdir ~/Workspace/xxx1'])
-        # Call the default installation behavior
         install.run(self)
+        subprocess.call(['mkdir', "xxx"])
 
 
 if __name__ == "__main__":
