@@ -138,7 +138,7 @@ def run():
     if args.verify:
         verify = cv2.imread(tiff, -1)
         if numpy.all(raw == verify):
-            _logger.info("Verification successful, conversion is lossless")
+            logging.info("Verification successful, conversion is lossless")
         else:
             _logger.error("Verification failed: %s" % path)
 
