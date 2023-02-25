@@ -1,4 +1,22 @@
+This project is useful to read mammographies http://www.eng.usf.edu/cvprg/Mammography/Database.html
+
 Usage:
+-1: New version use python 3, so we recommend you read https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/
+Follow the next steps if you have installed virtualenv already. 
+
+```bash
+# python3=python
+python -m venv env
+```
+
+```bash
+source env/bin/activate
+```
+
+```bash
+python3 -m pip install -r requirements.txt
+```
+
 
 0. Install flex with
 ``` apt-get install flex```.
@@ -6,12 +24,12 @@ Building without flex will fail and pollute the codebase.
 
 1. In your python project
 	```
-	git clone https://github.com/aaalgo/ljpeg.git
+	git clone https://github.com/sanchezcarlosjr/ljpeg.git
 
 	```
 	Or if you are using git already:
 	```
-	git submodule add https://github.com/aaalgo/ljpeg.git
+	git submodule add https://github.com/sanchezcarlosjr/ljpeg.git
 
 	```
 2. Produce the jpeg binary.
@@ -44,7 +62,7 @@ cp jpeg_static jpeg
 
 	The LJPEG format sometimes has wrong values for width and height (transposed).
 	One has to read the correct values of width and height from the associating .ics file.
-	Below is a sample snippet for this purpose:
+	Below is a sample snippet for this purpose, but it's not python3 yet:
 	```
 	    W = None
 	    H = None
@@ -69,18 +87,19 @@ cp jpeg_static jpeg
 		image = image.reshape((H, W))
 	```
 
-4. Using ljpeg.py standalone:
+4. Using ljpeg.py standalone with absolute paths over relative in order to keep away silly errors:
+
 	- Convert to TIFF (requires the .ics file in the same directory as LJPEG)
 	```
-	./ljpeg.py cases/benigns/benign_01/case0029/C_0029_1.LEFT_CC.LJPEG output.tiff
+	$(pwd)/ljpeg/ljpeg.py $(pwd)/cases/benigns/benign_01/case0029/C_0029_1.LEFT_CC.LJPEG $(pwd)/output.tiff
 	```
 	- Convert to TIFF and verify that no information has been lost
 	```
-	./ljpeg.py cases/benigns/benign_01/case0029/C_0029_1.LEFT_CC.LJPEG output.tiff --verify
+	$(pwd)/ljepg/ljpeg.py cases/benigns/benign_01/case0029/C_0029_1.LEFT_CC.LJPEG $(pwd)/output.tiff --verify
 	```
 	- Convert to jpeg for visualization with down-sizing scale=0.3 (16-bit TIFF is not good for direct visualization)
 	```
-	./ljpeg.py cases/benigns/benign_01/case0029/C_0029_1.LEFT_CC.LJPEG output.jpg --visual --scale 0.3
+	$(pwd)/ljepg/ljpeg.py cases/benigns/benign_01/case0029/C_0029_1.LEFT_CC.LJPEG $(pwd)/output.jpg --visual --scale 0.3
 	```
 	Note that output file can be any format that's supported by OpenCV (which includes all common types).  Most file formats only support 8-bit images, so directly saving into such file formats will cause problems.  Add "--visual" to normalize color into 8-bit before saving to such file formats.
 
