@@ -34,7 +34,7 @@ python3 -m pip install -r $(pwd)/ljpeg/requirements.txt
 
 3. Produce the jpeg binary.
 	```
-	cd jpegdir; make
+	cd $(pwd)/ljpeg/jpegdir && make
 	```
 
 A precompiled binary of jpeg is included.  In case this step does not
