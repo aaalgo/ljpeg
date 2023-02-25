@@ -34,14 +34,20 @@
 |
 
 ============
-demo-project
+Ljpeg
 ============
 
 
-    Demonstration of a project generated with PyScaffold
+     Read and transform ljpeg images into tiff or jpeg
 
 
-A longer description of your project goes here...
+  Transform an image with::
+
+     ljpeg $(pwd)/C_0029_1.LEFT_CC.LJPEG $(pwd)/output.tiff
+
+  Transform a lot of images with parallel::
+
+     find "$(pwd)" -type f -name '*.LJPEG' | parallel -j+0 "$(pwd)/ljpeg/ljpeg.py {} $(pwd)/{/.}.tiff --verify"
 
 
 .. _pyscaffold-notes:
