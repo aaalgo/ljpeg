@@ -1,7 +1,21 @@
 This project is useful to read mammographies http://www.eng.usf.edu/cvprg/Mammography/Database.html
 
 Usage:
--1: New version use python 3, so we recommend you read https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/
+0. Install flex with
+``` apt-get install flex```.
+Building without flex will fail and pollute the codebase.
+
+1. In your python project
+	```
+	git clone https://github.com/sanchezcarlosjr/ljpeg.git
+
+	```
+	Or if you are using git already:
+	```
+	git submodule add https://github.com/sanchezcarlosjr/ljpeg.git
+
+	```
+2. New version use python 3, so we recommend you read https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/
 Follow the next steps if you have installed virtualenv already. 
 
 ```bash
@@ -17,22 +31,7 @@ source env/bin/activate
 python3 -m pip install -r requirements.txt
 ```
 
-
-0. Install flex with
-``` apt-get install flex```.
-Building without flex will fail and pollute the codebase.
-
-1. In your python project
-	```
-	git clone https://github.com/sanchezcarlosjr/ljpeg.git
-
-	```
-	Or if you are using git already:
-	```
-	git submodule add https://github.com/sanchezcarlosjr/ljpeg.git
-
-	```
-2. Produce the jpeg binary.
+3. Produce the jpeg binary.
 	```
 	cd jpegdir; make
 
@@ -47,7 +46,7 @@ cp jpeg_static jpeg
 ```
 
 
-3. In your python code:
+4. In your python code:
 	```
 	from ljpeg import ljpeg
 
@@ -87,7 +86,7 @@ cp jpeg_static jpeg
 		image = image.reshape((H, W))
 	```
 
-4. Using ljpeg.py standalone with absolute paths over relative in order to keep away silly errors:
+5. Using ljpeg.py standalone with absolute paths over relative in order to keep away silly errors:
 
 	- Convert to TIFF (requires the .ics file in the same directory as LJPEG)
 	```
