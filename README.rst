@@ -45,12 +45,16 @@ Transform an image with::
 
      ljpeg $(pwd)/C_0029_1.LEFT_CC.LJPEG $(pwd)/output.tiff
 
-Transform a lot of images parallely::
 
-     find "$(pwd)" -type f -name '*.LJPEG' | parallel -j+0 "$(pwd)/ljpeg/ljpeg.py {} $(pwd)/{/.}.tiff --verify"
+Getting started
+=================
+Download a set of mammograms with::
 
+     wget -q ftp://figment.csee.usf.edu:21/pub/DDSM/cases/normals/normal_08/case4606/ && cat index.html | grep -oP '"ftp.*"' | sed s/\"//g | parallel wget
 
-.. _pyscaffold-notes:
+Transform a lot of mammograms parallely::
+
+     find "$(pwd)" -type f -name '*.LJPEG' | parallel -j+0 "ljpeg {} $(pwd)/{/.}.tiff --verify"
 
 Making Changes & Contributing
 =============================
