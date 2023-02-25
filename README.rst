@@ -1,112 +1,71 @@
-This project is useful to read mammographies http://www.eng.usf.edu/cvprg/Mammography/Database.html
+.. image:: https://readthedocs.org/projects/pyscaffold-demo/badge/?version=latest
+    :alt: ReadTheDocs
+    :target: https://pyscaffold-demo.readthedocs.io/
 
-Usage:
+.. These are examples of badges you might want to add to your README:
+   please update the URLs accordingly
 
-0. Install flex with
-``` apt-get install flex```.
-Building without flex will fail and pollute the codebase.
+    .. image:: https://api.cirrus-ci.com/github/<USER>/demo-project.svg?branch=main
+        :alt: Built Status
+        :target: https://cirrus-ci.com/github/<USER>/demo-project
+    .. image:: https://readthedocs.org/projects/demo-project/badge/?version=latest
+        :alt: ReadTheDocs
+        :target: https://demo-project.readthedocs.io/en/stable/
+    .. image:: https://img.shields.io/coveralls/github/<USER>/demo-project/main.svg
+        :alt: Coveralls
+        :target: https://coveralls.io/r/<USER>/demo-project
+    .. image:: https://img.shields.io/pypi/v/demo-project.svg
+        :alt: PyPI-Server
+        :target: https://pypi.org/project/demo-project/
+    .. image:: https://img.shields.io/conda/vn/conda-forge/demo-project.svg
+        :alt: Conda-Forge
+        :target: https://anaconda.org/conda-forge/demo-project
+    .. image:: https://pepy.tech/badge/demo-project/month
+        :alt: Monthly Downloads
+        :target: https://pepy.tech/project/demo-project
+    .. image:: https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Twitter
+        :alt: Twitter
+        :target: https://twitter.com/demo-project
 
-1. In your python project
-	```
-	git clone https://github.com/sanchezcarlosjr/ljpeg.git
+.. image:: https://img.shields.io/badge/-PyScaffold-005CA0?logo=pyscaffold
+    :alt: Project generated with PyScaffold
+    :target: https://pyscaffold.org/
 
-	```
-	Or if you are using git already:
-	```
-	git submodule add https://github.com/sanchezcarlosjr/ljpeg.git
+|
 
-	```
-2. New version use python 3, so we recommend you read https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/
-Follow the next steps if you have installed virtualenv already.
-
-```bash
-# python3=python
-python -m venv env
-```
-
-```bash
-source env/bin/activate
-```
-
-```bash
-python3 -m pip install -r $(pwd)/ljpeg/requirements.txt
-```
-
-3. Produce the jpeg binary.
-	```
-	cd $(pwd)/ljpeg/jpegdir && make
-	```
-
-A precompiled binary of jpeg is included.  In case this step does not
-work do this:
-
-```
-cd jpegdir;
-cp jpeg_static jpeg
-```
+============
+demo-project
+============
 
 
-4. In your python code:
-	```
-	from ljpeg import ljpeg
+    Demonstration of a project generated with PyScaffold
 
-	x = ljpeg.read(path)
-	```
 
-	The loaded is a matrix of type uint16.  Typically you want to convert that
-	to float for subsequent processing.
-	```
-	x = ljpeg.read(path).astype('float')
-	```
+A longer description of your project goes here...
 
-	The LJPEG format sometimes has wrong values for width and height (transposed).
-	One has to read the correct values of width and height from the associating .ics file.
-	Below is a sample snippet for this purpose, but it's not python3 yet:
-	```python
-	    W = None
-	    H = None
-	    # find the shape of image
-	    for l in open(ics, 'r'):
-		l = l.strip().split(' ')
-		if len(l) < 7:
-		    continue
-		if l[0] == name:
-		    W = int(l[4])
-		    H = int(l[2])
-		    bps = int(l[6])
-		    if bps != 12:
-			logging.warn('BPS != 12: %s' % path)
-		    break
 
-	    assert W != None
-	    assert H != None
+.. _pyscaffold-notes:
 
-	    if W != image.shape[1]:
-		logging.warn('reshape: %s' % path)
-		image = image.reshape((H, W))
-	```
+Making Changes & Contributing
+=============================
 
-5. Using ljpeg.py standalone with absolute paths preference over relative in order to keep away silly errors:
-	- Convert to TIFF (requires the .ics file in the same directory as LJPEG)
-	```
-	$(pwd)/ljpeg/ljpeg.py $(pwd)/cases/benigns/benign_01/case0029/C_0029_1.LEFT_CC.LJPEG $(pwd)/output.tiff
-	```
-	- Convert to TIFF and verify that no information has been lost
-	```
-	$(pwd)/ljepg/ljpeg.py $(pwd)/cases/benigns/benign_01/case0029/C_0029_1.LEFT_CC.LJPEG $(pwd)/output.tiff --verify
-	```
-	- Convert to jpeg for visualization with down-sizing scale=0.3 (16-bit TIFF is not good for direct visualization)
-	```
-	$(pwd)/ljepg/ljpeg.py $(pwd)/cases/benigns/benign_01/case0029/C_0029_1.LEFT_CC.LJPEG $(pwd)/output.jpg --visual --scale 0.3
-	```
-	Note that output file can be any format that's supported by OpenCV (which includes all common types).  Most file formats only support 8-bit images, so directly saving into such file formats will cause problems.  Add "--visual" to normalize color into 8-bit before saving to such file formats.
+This project uses `pre-commit`_, please make sure to install it before making any
+changes::
 
-The Stanford ljpeg code is in public domain and is therefore OK to be
-included here.  I did minor modification to make the code compile under
-modern Linux.
+    pip install pre-commit
+    cd demo-project
+    pre-commit install
+
+It is a good idea to update the hooks to the latest version::
+
+    pre-commit autoupdate
+
+Don't forget to tell your contributors to also install and use pre-commit.
+
+.. _pre-commit: https://pre-commit.com/
 
 Note
 ====
 
-This project has been set up using PyScaffold 4.4. For details and usage
+This project has been set up using PyScaffold 4.2.2.post1.dev3+g01e6e81. For details and usage
 information on PyScaffold see https://pyscaffold.org/.
