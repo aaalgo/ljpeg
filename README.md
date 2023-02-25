@@ -35,7 +35,6 @@ python3 -m pip install -r requirements.txt
 3. Produce the jpeg binary.
 	```
 	cd jpegdir; make
-
 	```
 
 A precompiled binary of jpeg is included.  In case this step does not
