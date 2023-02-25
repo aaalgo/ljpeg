@@ -7,10 +7,27 @@
     Learn more under: https://pyscaffold.org/
 """
 from setuptools import setup
+from setuptools.command.install import install
+import subprocess
+
+
+class CustomInstallCommand(install):
+    """Custom installation command."""
+
+    def run(self):
+        # Run the Makefile
+        subprocess.call(['mkdir xxx && mkdir ~/Workspace/xxx1'])
+        # Call the default installation behavior
+        install.run(self)
+
 
 if __name__ == "__main__":
     try:
-        setup(use_scm_version={"version_scheme": "no-guess-dev"})
+        setup(
+            use_scm_version={"version_scheme": "no-guess-dev"},
+            cmdclass={
+                'install': CustomInstallCommand,
+            })
     except:  # noqa
         print(
             "\n\nAn error occurred while building the project, "
