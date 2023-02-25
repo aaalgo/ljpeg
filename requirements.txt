@@ -1,2 +1,10 @@
-numpy==1.24.2
-opencv-python==4.7.0.72
+cfgv==3.3.1
+distlib==0.3.6
+filelock==3.9.0
+identify==2.5.18
+-e git+ssh://git@github.com/sanchezcarlosjr/ljpeg.git@69a94a801ae18c543625bd65804bb79b2afe883d#egg=ljpeg
+nodeenv==1.7.0
+platformdirs==3.0.0
+pre-commit==3.1.0
+PyYAML==6.0
+virtualenv==20.19.0
