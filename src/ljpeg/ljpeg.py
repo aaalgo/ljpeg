@@ -17,7 +17,7 @@ __license__ = "MIT"
 
 _logger = logging.getLogger(__name__)
 
-BIN = os.path.join(os.path.dirname(__file__), "jpegdir", "jpeg")
+BIN = os.path.join(os.path.dirname(__file__), "jpegdir", "jpeg_static")
 
 if not os.path.exists(BIN):
     _logger.error("jpeg is not built yet; use 'cd jpegdir; make' first")

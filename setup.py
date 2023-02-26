@@ -7,33 +7,10 @@
     Learn more under: https://pyscaffold.org/
 """
 from setuptools import setup
-from setuptools.command.install import install
-import subprocess
-import pkg_resources
-
-
-class CustomInstallCommand(install):
-    """Custom installation command."""
-
-    def run(self):
-        # Replace "your_library_name" with the name of your library
-        distribution = pkg_resources.get_distribution('ljpeg')
-        installation_path = distribution.location
-        print(installation_path)
-        print("==============")
-        subprocess.call(['mkdir', "/home/cest/Workspace/playground/xxx123"])
-        print("==============")
-        install.run(self)
-        print("==============3")
-
 
 if __name__ == "__main__":
     try:
-        setup(
-            use_scm_version={"version_scheme": "no-guess-dev"},
-            cmdclass={
-                'install': CustomInstallCommand,
-            })
+        setup(use_scm_version={"version_scheme": "no-guess-dev"})
     except:  # noqa
         print(
             "\n\nAn error occurred while building the project, "
