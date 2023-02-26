@@ -36,11 +36,27 @@
 ============
 ljpeg
 ============
-
-
      Read and transform LJPEG images into modern formats.
 
-Warning: You must have installed flex on your operating system.
+Installation
+============
+Warning: You must have installed the flex parser on your operating system::
+
+    pip install ljpeg
+
+By default, we offer you a binary called jpeg_static. However, you can produce your jpeg binary::
+
+    cd jpegdir && make
+
+Getting started
+=================
+Download a set of mammograms with::
+
+     wget -q ftp://figment.csee.usf.edu:21/pub/DDSM/cases/normals/normal_08/case4606/ && cat index.html | grep -oP '"ftp.*"' | sed s/\"//g | parallel wget
+
+Transform a lot of mammograms parallely::
+
+     find "$(pwd)" -type f -name '*.LJPEG' | parallel -j+0 "ljpeg {} $(pwd)/{/.}.tiff --verify"
 
 Convert to TIFF (requires the .ics file in the same directory as LJPEG)::
 
@@ -59,15 +75,6 @@ Note that output file can be any format that's supported by OpenCV (which includ
 
 The Stanford ljpeg code is in public domain and is therefore OK to be included here. I did minor modification to make the code compile under modern Linux.
 
-Getting started
-=================
-Download a set of mammograms with::
-
-     wget -q ftp://figment.csee.usf.edu:21/pub/DDSM/cases/normals/normal_08/case4606/ && cat index.html | grep -oP '"ftp.*"' | sed s/\"//g | parallel wget
-
-Transform a lot of mammograms parallely::
-
-     find "$(pwd)" -type f -name '*.LJPEG' | parallel -j+0 "ljpeg {} $(pwd)/{/.}.tiff --verify"
 
 Making Changes & Contributing
 =============================
