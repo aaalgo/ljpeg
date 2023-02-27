@@ -52,11 +52,11 @@ Getting started
 =================
 Download a set of mammograms with::
 
-     wget -q ftp://figment.csee.usf.edu:21/pub/DDSM/cases/normals/normal_08/case4606/ && cat index.html | grep -oP '"ftp.*"' | sed s/\"//g | parallel wget
+     wget -r -q ftp://figment.csee.usf.edu:21/pub/DDSM/cases/normals/normal_08/case4606/
 
 Transform a lot of mammograms parallely::
 
-     find "$(pwd)" -type f -name '*.LJPEG' | parallel -j+0 "ljpeg {} $(pwd)/{/.}.tiff --verify"
+     find . -type f -name '*.LJPEG' | parallel -j+0 "ljpeg {} $(pwd)/{/.}.tiff --verify"
 
 Convert to TIFF (requires the .ics file in the same directory as LJPEG)::
 
